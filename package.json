@@ -1,0 +1,50 @@
+{
+  "name": "lever-web",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Lever for everything.",
+  "author": "中月不吃辣<lizhongyue248@163.com>",
+  "scripts": {
+    "quasar": "quasar dev",
+    "sort-package-json": "pnpm dlx sort-package-json",
+    "update-dep": "pnpm up --latest --interactive",
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "pinia": "^2.0.11",
+    "quasar": "^2.6.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
+    "@quasar/app-vite": "^1.0.0",
+    "@types/node": "^12.20.21",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "typescript": "^4.5.4",
+    "umi-request": "^1.4.0",
+    "v3hooks": "^1.5.0",
+    "vite": "^3.0.9",
+    "vite-plugin-windicss": "^1.8.7",
+    "windicss": "^3.5.6"
+  },
+  "packageManager": "pnpm@7.9.5",
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.13.4",
+    "pnpm": ">=7.9.5",
+    "yarn": ">= 1.21.1"
+  },
+  "productName": "Lever"
+}
