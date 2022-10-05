@@ -2,6 +2,6 @@
   <router-view />
 </template>
 
-<script setup lang="ts">
-
+<script lang="ts">
+import 'virtual:windi.css'
 </script>
