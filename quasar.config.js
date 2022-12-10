@@ -7,9 +7,11 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-
 const { configure } = require('quasar/wrappers')
+const { compile } = require('json-schema-to-typescript')
+const umi = require('umi-request')
 const path = require('path')
+const fs = require('fs')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -82,7 +84,26 @@ module.exports = configure(function (/* ctx */) {
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
-
+      beforeDev: async (param) => {
+        const result = await umi.extend({ timeout: 10000 })
+          .get(param.quasarConf.devServer.proxy['/api'].target + '/information/mapping')
+        const requestReferences = result.mappings.map(mapping => mapping.requestReferences).flat()
+          .filter(parameter => parameter != null && parameter.reference !== null && parameter.reference.trim() !== '')
+          .map(item => ({
+            $ref: item.reference
+          }))
+        const type = {
+          modalSchema: result.modalSchema,
+          allOf: requestReferences
+        }
+        const typeFile = await compile(type, 'Type', {
+          bannerComment: `
+          /* eslint-disable */
+          // noinspection JSUnusedGlobalSymbols
+          `
+        })
+        fs.writeFileSync('src/type.d.ts', typeFile)
+      },
       vitePlugins: [
         ['@intlify/vite-plugin-vue-i18n', {
           // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
@@ -98,7 +119,14 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
+      proxy: {
+        '/api': {
+          target: 'http://localhost:9001',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
